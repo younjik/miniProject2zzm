@@ -3,9 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, AlertCircle, LocateFixed } from "lucide-react";
 import { REGION_COORDS } from "../../data.js";
 import { getTargetCoord } from "../../lib/recommend.js";
+import { reverseGeocode } from "../../lib/geocode.js";
 import QuestionLogo from "../QuestionLogo.jsx";
 
-export default function RegionScreen({ answers, onChange }) {
+export default function RegionScreen({ answers, onChange, onGoHome }) {
   const [locating, setLocating] = useState(null);
   const [locateError, setLocateError] = useState("");
 
@@ -22,10 +23,12 @@ export default function RegionScreen({ answers, onChange }) {
     setLocating(slot);
     setLocateError("");
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        const address = await reverseGeocode(latitude, longitude);
         onChange({
-          [textField]: "현재 위치",
-          [coordField]: { lat: pos.coords.latitude, lng: pos.coords.longitude },
+          [textField]: address || "현재 위치",
+          [coordField]: { lat: latitude, lng: longitude },
         });
         setLocating(null);
       },
@@ -43,7 +46,7 @@ export default function RegionScreen({ answers, onChange }) {
 
   return (
     <>
-      <QuestionLogo />
+      <QuestionLogo onClick={onGoHome} />
       <h2 className="step-title">어디쯤에서 모일까요?</h2>
       <p className="step-desc">한 지역 근처 or 두 지역의 중간 지점, 골라서 입력해주세요.</p>
 
@@ -87,14 +90,8 @@ export default function RegionScreen({ answers, onChange }) {
               disabled={locating === "region1"}
             >
               <LocateFixed size={15} />
-              {locating === "region1" ? "위치 확인 중..." : "현재 위치 근처에서 찾아볼까요?"}
+              {locating === "region1" ? "주소 확인 중..." : "현재 위치 근처에서 찾아볼까요?"}
             </motion.button>
-            {answers.region1Coord && (
-              <p className="locate-confirm">
-                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.region1Coord.lat.toFixed(3)}, 경도{" "}
-                {answers.region1Coord.lng.toFixed(3)}
-              </p>
-            )}
           </motion.div>
         ) : (
           <motion.div key="midpoint" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.2 }}>
@@ -114,14 +111,8 @@ export default function RegionScreen({ answers, onChange }) {
               disabled={locating === "regionA"}
             >
               <LocateFixed size={14} />
-              {locating === "regionA" ? "위치 확인 중..." : "현재 위치로 설정"}
+              {locating === "regionA" ? "주소 확인 중..." : "현재 위치로 설정"}
             </motion.button>
-            {answers.regionACoord && (
-              <p className="locate-confirm">
-                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.regionACoord.lat.toFixed(3)}, 경도{" "}
-                {answers.regionACoord.lng.toFixed(3)}
-              </p>
-            )}
 
             <label className="field-label">두 번째 지역</label>
             <input
@@ -139,14 +130,8 @@ export default function RegionScreen({ answers, onChange }) {
               disabled={locating === "regionB"}
             >
               <LocateFixed size={14} />
-              {locating === "regionB" ? "위치 확인 중..." : "현재 위치로 설정"}
+              {locating === "regionB" ? "주소 확인 중..." : "현재 위치로 설정"}
             </motion.button>
-            {answers.regionBCoord && (
-              <p className="locate-confirm">
-                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.regionBCoord.lat.toFixed(3)}, 경도{" "}
-                {answers.regionBCoord.lng.toFixed(3)}
-              </p>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

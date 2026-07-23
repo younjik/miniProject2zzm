@@ -5,10 +5,10 @@ import QuestionLogo from "../QuestionLogo.jsx";
 
 const ICONS = { Wine, UtensilsCrossed, Soup, MessageCircleHeart, PartyPopper, HelpCircle };
 
-export default function ConceptScreen({ value, onChange }) {
+export default function ConceptScreen({ value, onChange, onGoHome }) {
   return (
     <>
-      <QuestionLogo />
+      <QuestionLogo onClick={onGoHome} />
       <h2 className="step-title">오늘의 모임, 어떤 느낌이에요?</h2>
       <p className="step-desc">컨셉에 맞춰 딱 맞는 장소를 골라볼게요.</p>
       <div className="option-grid">

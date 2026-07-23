@@ -35,6 +35,8 @@ export const CONCEPTS = [
 
 export const ROUNDS = ["1차", "2차", "3차 이상", "모르겠어요"];
 
+export const PARTY_SIZES = ["1명", "2명", "3~4명", "5명 이상", "모르겠어요"];
+
 export const CUISINE_TYPES = ["한식", "양식", "일식", "중식", "모르겠어요"];
 
 // 샘플 식당 데이터 (16곳)

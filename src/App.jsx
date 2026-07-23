@@ -3,21 +3,21 @@ import { AnimatePresence, motion } from "framer-motion";
 import BottomNav from "./components/BottomNav.jsx";
 import IntroScreen from "./components/screens/IntroScreen.jsx";
 import ConceptScreen from "./components/screens/ConceptScreen.jsx";
-import RoundScreen from "./components/screens/RoundScreen.jsx";
+import PartyScreen from "./components/screens/PartyScreen.jsx";
 import RegionScreen from "./components/screens/RegionScreen.jsx";
-import MoodScreen from "./components/screens/MoodScreen.jsx";
-import CuisineScreen from "./components/screens/CuisineScreen.jsx";
+import MoodCuisineScreen from "./components/screens/MoodCuisineScreen.jsx";
 import SubmitScreen from "./components/screens/SubmitScreen.jsx";
 import ResultsScreen from "./components/screens/ResultsScreen.jsx";
 import DetailScreen from "./components/screens/DetailScreen.jsx";
 import { getTargetCoord, getRecommendations } from "./lib/recommend.js";
 import { restaurants } from "./data.js";
 
-const FLOW = ["intro", "concept", "round", "region", "mood", "cuisine", "submit"];
+const FLOW = ["intro", "region", "concept", "mood", "party", "submit"];
 
 const initialAnswers = {
   concept: null,
   round: null,
+  partySize: null,
   regionMode: "single",
   region1: "",
   regionA: "",
@@ -28,6 +28,7 @@ const initialAnswers = {
   moods: [],
   customMoods: [],
   cuisines: [],
+  customCuisines: [],
   menuTags: [],
 };
 
@@ -35,12 +36,12 @@ function validateStep(step, answers) {
   switch (step) {
     case "concept":
       return !!answers.concept;
-    case "round":
-      return !!answers.round;
+    case "party":
+      return !!answers.round && !!answers.partySize;
     case "region":
       return !!getTargetCoord(answers);
-    case "cuisine":
-      return answers.cuisines.length > 0;
+    case "mood":
+      return answers.cuisines.length > 0 || answers.customCuisines.length > 0;
     default:
       return true;
   }
@@ -94,30 +95,34 @@ export default function App() {
     go("intro", -1);
   };
 
-  const showBottomNav = ["concept", "round", "region", "mood", "cuisine"].includes(step);
+  const showBottomNav = ["region", "concept", "mood", "party"].includes(step);
   const detailRestaurant = restaurants.find((r) => r.id === detailId) || null;
 
   const renderScreen = () => {
     switch (step) {
       case "intro":
-        return <IntroScreen onStart={() => go("concept", 1)} />;
-      case "concept":
-        return <ConceptScreen value={answers.concept} onChange={(v) => updateAnswers({ concept: v })} />;
-      case "round":
-        return <RoundScreen value={answers.round} onChange={(v) => updateAnswers({ round: v })} />;
+        return <IntroScreen onStart={() => go("region", 1)} />;
       case "region":
-        return <RegionScreen answers={answers} onChange={updateAnswers} />;
+        return <RegionScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
+      case "concept":
+        return (
+          <ConceptScreen
+            value={answers.concept}
+            onChange={(v) => updateAnswers({ concept: v })}
+            onGoHome={handleRestart}
+          />
+        );
       case "mood":
-        return <MoodScreen answers={answers} onChange={updateAnswers} />;
-      case "cuisine":
-        return <CuisineScreen answers={answers} onChange={updateAnswers} />;
+        return <MoodCuisineScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
+      case "party":
+        return <PartyScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
       case "submit":
-        return <SubmitScreen answers={answers} onBack={() => go("cuisine", -1)} onSubmit={handleSubmit} />;
+        return <SubmitScreen answers={answers} onBack={() => go("party", -1)} onSubmit={handleSubmit} />;
       case "results":
         return (
           <ResultsScreen
             results={results}
-            onBack={() => go("cuisine", -1)}
+            onBack={() => go("party", -1)}
             onRestart={handleRestart}
             onOpenDetail={handleOpenDetail}
           />

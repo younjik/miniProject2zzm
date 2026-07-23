@@ -10,6 +10,7 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
       ? answers.region1 || "-"
       : `${answers.regionA || "-"} ↔ ${answers.regionB || "-"} 중간쯤`;
   const allMoods = [...answers.moods, ...answers.customMoods];
+  const allCuisines = [...answers.cuisines, ...answers.customCuisines];
 
   const handleSubmit = () => {
     setLoading(true);
@@ -28,20 +29,23 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
         <p className="step-desc">지금까지 고른 조건으로 딱 맞는 장소를 찾아볼게요.</p>
         <div className="summary-card">
           <div>
-            <b>오늘의 컨셉</b> · {answers.concept}
-          </div>
-          <div>
-            <b>차수</b> · {answers.round}
-          </div>
-          <div>
             <b>지역</b> · {region}
+          </div>
+          <div>
+            <b>오늘의 컨셉</b> · {answers.concept}
           </div>
           <div>
             <b>분위기</b> · {allMoods.length ? allMoods.join(", ") : "상관없어요"}
           </div>
           <div>
-            <b>음식</b> · {answers.cuisines.join(", ")}
+            <b>음식</b> · {allCuisines.length ? allCuisines.join(", ") : "상관없어요"}
             {answers.menuTags.length ? ` (${answers.menuTags.join(", ")})` : ""}
+          </div>
+          <div>
+            <b>인원수</b> · {answers.partySize}
+          </div>
+          <div>
+            <b>차수</b> · {answers.round}
           </div>
         </div>
         <motion.button
