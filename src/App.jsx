@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Logo from "./components/Logo.jsx";
-import ProgressDots from "./components/ProgressDots.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import IntroScreen from "./components/screens/IntroScreen.jsx";
 import ConceptScreen from "./components/screens/ConceptScreen.jsx";
@@ -133,14 +131,6 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <button className="logo-wrap" onClick={handleRestart}>
-          <Logo className="logo-img" />
-          <span className="brand-name">이쯤</span>
-        </button>
-        <ProgressDots step={step} />
-      </header>
-
       <div className="screens-viewport">
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div

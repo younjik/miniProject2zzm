@@ -89,68 +89,6 @@ button {
   }
 }
 
-/* ===== 헤더 ===== */
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(255, 243, 237, 0.72);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-}
-
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.logo-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgba(36, 59, 85, 0.25);
-}
-
-.brand-name {
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--primary);
-  letter-spacing: -0.02em;
-}
-
-.progress-dots {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  height: 8px;
-}
-
-.progress-dots .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--border);
-}
-
-.progress-dots .dot.done {
-  background: var(--primary);
-}
-
-.progress-dots .dot.active {
-  width: 18px;
-  border-radius: 4px;
-  background: var(--gold);
-}
-
 /* ===== 스크린 컨테이너 ===== */
 .screens-viewport {
   flex: 1;
