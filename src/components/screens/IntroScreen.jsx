@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import wordmarkUrl from "../../assets/wordmark.png";
-import flowStepsUrl from "../../assets/flow-steps.png";
 
 export default function IntroScreen({ onStart }) {
   return (
@@ -23,14 +22,6 @@ export default function IntroScreen({ onStart }) {
         <br />
         리뷰 속 <b>분위기</b>를 분석해 우리 모임에 딱 맞는 장소를 추천해줘요.
       </motion.p>
-      <motion.div
-        className="hero-flow"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.34 }}
-      >
-        <img src={flowStepsUrl} alt="어디서 만나지? → 이쯤이 찾아줌 → 여기쯤 어때?" className="flow-steps-img" />
-      </motion.div>
       <motion.button
         className="btn-primary btn-large"
         whileHover={{ scale: 1.02 }}

@@ -139,25 +139,10 @@ button {
   text-align: center;
 }
 
-.logo-hero {
-  width: 108px;
-  height: 108px;
-  border-radius: 30px;
-  box-shadow: 0 12px 32px rgba(36, 59, 85, 0.3);
-  margin-bottom: 18px;
-}
-
 .wordmark {
   width: min(55%, 210px);
   height: auto;
   margin: 4px 0 22px;
-}
-
-.slogan {
-  font-size: 15px;
-  color: var(--accent);
-  font-weight: 700;
-  margin: 0 0 20px;
 }
 
 .hero-desc {
@@ -165,18 +150,6 @@ button {
   line-height: 1.7;
   color: var(--text);
   margin: 0 0 24px;
-}
-
-.hero-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-.flow-steps-img {
-  width: 100%;
-  height: auto;
 }
 
 /* ===== 버튼 공통 ===== */
@@ -426,6 +399,16 @@ input[type="text"]:focus {
   padding: 9px;
   font-size: 12.5px;
   margin-bottom: 16px;
+}
+
+.locate-confirm {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: -10px 0 16px;
 }
 
 /* ===== 요약 카드 ===== */

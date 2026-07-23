@@ -89,6 +89,12 @@ export default function RegionScreen({ answers, onChange }) {
               <LocateFixed size={15} />
               {locating === "region1" ? "위치 확인 중..." : "현재 위치 근처에서 찾아볼까요?"}
             </motion.button>
+            {answers.region1Coord && (
+              <p className="locate-confirm">
+                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.region1Coord.lat.toFixed(3)}, 경도{" "}
+                {answers.region1Coord.lng.toFixed(3)}
+              </p>
+            )}
           </motion.div>
         ) : (
           <motion.div key="midpoint" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.2 }}>
@@ -110,6 +116,12 @@ export default function RegionScreen({ answers, onChange }) {
               <LocateFixed size={14} />
               {locating === "regionA" ? "위치 확인 중..." : "현재 위치로 설정"}
             </motion.button>
+            {answers.regionACoord && (
+              <p className="locate-confirm">
+                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.regionACoord.lat.toFixed(3)}, 경도{" "}
+                {answers.regionACoord.lng.toFixed(3)}
+              </p>
+            )}
 
             <label className="field-label">두 번째 지역</label>
             <input
@@ -129,6 +141,12 @@ export default function RegionScreen({ answers, onChange }) {
               <LocateFixed size={14} />
               {locating === "regionB" ? "위치 확인 중..." : "현재 위치로 설정"}
             </motion.button>
+            {answers.regionBCoord && (
+              <p className="locate-confirm">
+                <LocateFixed size={13} /> 현재 위치를 사용했어요 · 위도 {answers.regionBCoord.lat.toFixed(3)}, 경도{" "}
+                {answers.regionBCoord.lng.toFixed(3)}
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
