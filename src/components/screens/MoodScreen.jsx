@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus, X } from "lucide-react";
 import { MOOD_TAGS } from "../../data.js";
+import QuestionLogo from "../QuestionLogo.jsx";
 
 export default function MoodScreen({ answers, onChange }) {
   const [customInput, setCustomInput] = useState("");
@@ -31,6 +32,7 @@ export default function MoodScreen({ answers, onChange }) {
 
   return (
     <>
+      <QuestionLogo />
       <h2 className="step-title">어떤 분위기가 좋아요?</h2>
       <p className="step-desc">원하는 분위기를 여러 개 골라도 좋아요.</p>
       <div className="tag-grid">

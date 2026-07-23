@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { UtensilsCrossed, Beer, Coffee, HelpCircle, Check } from "lucide-react";
 import { ROUNDS } from "../../data.js";
+import QuestionLogo from "../QuestionLogo.jsx";
 
 const ICONS = { "1차": UtensilsCrossed, "2차": Beer, "3차 이상": Coffee, "모르겠어요": HelpCircle };
 
 export default function RoundScreen({ value, onChange }) {
   return (
     <>
+      <QuestionLogo />
       <h2 className="step-title">몇 차인가요?</h2>
       <p className="step-desc">차수에 따라 어울리는 장소가 달라져요.</p>
       <div className="option-grid">

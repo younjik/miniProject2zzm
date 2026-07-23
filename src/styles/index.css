@@ -166,6 +166,19 @@ button {
   min-height: 100%;
 }
 
+.screen-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.question-logo {
+  width: 52px;
+  height: auto;
+  display: block;
+  margin: 2px 0 10px;
+}
+
 .step-title {
   font-size: 22px;
   font-weight: 800;
@@ -186,7 +199,6 @@ button {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 20px;
 }
 
 .logo-hero {
@@ -198,9 +210,9 @@ button {
 }
 
 .wordmark {
-  height: 34px;
-  width: auto;
-  margin: 0 0 10px;
+  width: min(55%, 210px);
+  height: auto;
+  margin: 4px 0 22px;
 }
 
 .slogan {
@@ -221,22 +233,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--primary);
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px 16px;
   margin-bottom: 30px;
-  box-shadow: var(--shadow-card);
 }
 
-.hero-flow .arrow {
-  color: var(--accent);
-  font-weight: 400;
+.flow-steps-img {
+  width: 100%;
+  height: auto;
 }
 
 /* ===== 버튼 공통 ===== */
@@ -459,6 +461,35 @@ input[type="text"]:focus {
   color: #2f9e6b;
 }
 
+.locate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  border: 1.5px dashed var(--accent);
+  background: #fff9f6;
+  color: var(--accent);
+  border-radius: 13px;
+  padding: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 18px;
+}
+
+.locate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.locate-btn-inline {
+  padding: 9px;
+  font-size: 12.5px;
+  margin-bottom: 16px;
+}
+
 /* ===== 요약 카드 ===== */
 .summary-card {
   width: 100%;
@@ -479,6 +510,27 @@ input[type="text"]:focus {
 }
 
 /* ===== 결과 리스트 ===== */
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.result-header-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.result-header .step-title {
+  margin: 0 0 4px;
+}
+
+.result-header .result-count {
+  margin: 0;
+}
+
 .result-count {
   display: flex;
   align-items: center;
@@ -674,7 +726,7 @@ input[type="text"]:focus {
   width: 100%;
   text-align: center;
   text-decoration: none;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 16px;
   border-radius: 16px;
   background: linear-gradient(135deg, var(--gold), #f7d47b);
@@ -682,6 +734,24 @@ input[type="text"]:focus {
   font-weight: 800;
   font-size: 15px;
   box-shadow: 0 6px 18px rgba(242, 193, 78, 0.4);
+}
+
+.map-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 15px;
 }
 
 /* ===== 하단 네비 ===== */

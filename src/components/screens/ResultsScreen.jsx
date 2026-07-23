@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ChevronLeft, Star, MapPin } from "lucide-react";
 import pinUrl from "../../assets/pin.png";
+import foundPinUrl from "../../assets/found-pin.png";
 
 export default function ResultsScreen({ results, onBack, onRestart, onOpenDetail }) {
   return (
@@ -8,10 +9,15 @@ export default function ResultsScreen({ results, onBack, onRestart, onOpenDetail
       <button className="btn-back" onClick={onBack}>
         <ChevronLeft size={16} /> 조건 다시 선택
       </button>
-      <h2 className="step-title">여기쯤 어때요?</h2>
-      <p className="step-desc result-count">
-        {results.length ? `조건에 맞는 ${results.length}곳을 찾았어요.` : ""}
-      </p>
+      <div className="result-header">
+        <img src={foundPinUrl} alt="" className="result-header-icon" />
+        <div>
+          <h2 className="step-title">여기쯤 어때요?</h2>
+          <p className="step-desc result-count">
+            {results.length ? `조건에 맞는 ${results.length}곳을 찾았어요.` : ""}
+          </p>
+        </div>
+      </div>
 
       {results.length === 0 ? (
         <motion.div className="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>

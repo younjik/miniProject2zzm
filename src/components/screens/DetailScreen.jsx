@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ChevronLeft, Star, Clock, GlassWater, UtensilsCrossed, Phone, MapPin } from "lucide-react";
+import { ChevronLeft, Star, Clock, GlassWater, UtensilsCrossed, Phone, MapPin, Navigation } from "lucide-react";
+import { getNaverMapUrl } from "../../lib/naverMap.js";
 
 export default function DetailScreen({ restaurant, onBack }) {
   if (!restaurant) return null;
@@ -63,6 +64,15 @@ export default function DetailScreen({ restaurant, onBack }) {
           </span>
         </div>
 
+        <motion.a
+          whileTap={{ scale: 0.97 }}
+          className="map-btn"
+          href={getNaverMapUrl(r)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Navigation size={16} /> 네이버 지도로 길찾기
+        </motion.a>
         <motion.a whileTap={{ scale: 0.97 }} className="call-btn" href={`tel:${r.phone}`}>
           <Phone size={16} /> {r.phone} 전화 예약하기
         </motion.a>

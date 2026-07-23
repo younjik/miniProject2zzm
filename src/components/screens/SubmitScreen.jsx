@@ -40,7 +40,7 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
             <b>분위기</b> · {allMoods.length ? allMoods.join(", ") : "상관없어요"}
           </div>
           <div>
-            <b>음식</b> · {answers.cuisine}
+            <b>음식</b> · {answers.cuisines.join(", ")}
             {answers.menuTags.length ? ` (${answers.menuTags.join(", ")})` : ""}
           </div>
         </div>

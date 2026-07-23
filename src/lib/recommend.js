@@ -22,10 +22,10 @@ export function resolveRegion(rawName) {
 
 export function getTargetCoord(answers) {
   if (answers.regionMode === "single") {
-    return resolveRegion(answers.region1);
+    return answers.region1Coord || resolveRegion(answers.region1);
   }
-  const a = resolveRegion(answers.regionA);
-  const b = resolveRegion(answers.regionB);
+  const a = answers.regionACoord || resolveRegion(answers.regionA);
+  const b = answers.regionBCoord || resolveRegion(answers.regionB);
   if (!a || !b) return null;
   return { lat: (a.lat + b.lat) / 2, lng: (a.lng + b.lng) / 2 };
 }
@@ -75,8 +75,8 @@ export function getRecommendations(answers) {
     near = near.filter((r) => r.recommendedRound.includes("1차"));
   }
 
-  if (answers.cuisine && answers.cuisine !== "모르겠어요") {
-    near = near.filter((r) => r.cuisineType === answers.cuisine);
+  if (answers.cuisines.length && !answers.cuisines.includes("모르겠어요")) {
+    near = near.filter((r) => answers.cuisines.includes(r.cuisineType));
   }
 
   if (answers.menuTags.length) {

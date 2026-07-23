@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { Wine, UtensilsCrossed, Soup, MessageCircleHeart, PartyPopper, HelpCircle, Check } from "lucide-react";
 import { CONCEPTS } from "../../data.js";
+import QuestionLogo from "../QuestionLogo.jsx";
 
 const ICONS = { Wine, UtensilsCrossed, Soup, MessageCircleHeart, PartyPopper, HelpCircle };
 
 export default function ConceptScreen({ value, onChange }) {
   return (
     <>
+      <QuestionLogo />
       <h2 className="step-title">오늘의 모임, 어떤 느낌이에요?</h2>
       <p className="step-desc">컨셉에 맞춰 딱 맞는 장소를 골라볼게요.</p>
       <div className="option-grid">

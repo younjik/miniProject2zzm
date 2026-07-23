@@ -24,9 +24,12 @@ const initialAnswers = {
   region1: "",
   regionA: "",
   regionB: "",
+  region1Coord: null,
+  regionACoord: null,
+  regionBCoord: null,
   moods: [],
   customMoods: [],
-  cuisine: null,
+  cuisines: [],
   menuTags: [],
 };
 
@@ -39,7 +42,7 @@ function validateStep(step, answers) {
     case "region":
       return !!getTargetCoord(answers);
     case "cuisine":
-      return !!answers.cuisine;
+      return answers.cuisines.length > 0;
     default:
       return true;
   }
@@ -148,7 +151,7 @@ export default function App() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.22, ease: "easeInOut" }}
-            className="screen"
+            className={`screen${step === "intro" ? " screen-center" : ""}`}
           >
             {renderScreen()}
           </motion.div>
