@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import logoUrl from "../../assets/logo.png";
+import wordmarkUrl from "../../assets/wordmark.png";
 
 const FLOW_STEPS = ["어디서 모일까?", "조건 선택", "이쯤 찾아볼게요!", "여기쯤 어때?"];
 
@@ -13,9 +14,14 @@ export default function IntroScreen({ onStart }) {
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.h1 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        📍 이쯤
-      </motion.h1>
+      <motion.img
+        src={wordmarkUrl}
+        alt="이쯤"
+        className="wordmark"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      />
       <motion.p
         className="slogan"
         initial={{ opacity: 0, y: 8 }}

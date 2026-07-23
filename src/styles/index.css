@@ -197,11 +197,10 @@ button {
   margin-bottom: 18px;
 }
 
-.hero h1 {
-  font-size: 32px;
-  color: var(--primary);
-  margin: 0 0 6px;
-  letter-spacing: -0.03em;
+.wordmark {
+  height: 34px;
+  width: auto;
+  margin: 0 0 10px;
 }
 
 .slogan {
