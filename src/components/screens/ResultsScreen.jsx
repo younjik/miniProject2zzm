@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { ChevronLeft, Star, MapPin } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import pinUrl from "../../assets/pin.png";
 import foundPinUrl from "../../assets/found-pin.png";
+import RestaurantCard from "../RestaurantCard.jsx";
 
-export default function ResultsScreen({ results, onBack, onRestart, onOpenDetail }) {
+export default function ResultsScreen({ results, onBack, onRestart, onOpenDetail, favorites, onToggleFavorite }) {
   return (
     <>
       <button className="btn-back" onClick={onBack}>
@@ -29,33 +30,14 @@ export default function ResultsScreen({ results, onBack, onRestart, onOpenDetail
       ) : (
         <div className="result-list">
           {results.map((r, i) => (
-            <motion.div
+            <RestaurantCard
               key={r.id}
-              className="result-card"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 }}
-              whileHover={{ y: -3, boxShadow: "0 10px 24px rgba(36,59,85,0.12)" }}
-              whileTap={{ scale: 0.99 }}
+              restaurant={r}
+              index={i}
               onClick={() => onOpenDetail(r.id)}
-            >
-              <div className="result-card-top">
-                <span className="result-card-name">{r.name}</span>
-                <span className="result-card-rating">
-                  <Star size={13} fill="currentColor" /> {r.rating}
-                </span>
-              </div>
-              <div className="result-card-meta">
-                <MapPin size={12} style={{ verticalAlign: -1 }} /> {r.region} · 약 {r.distance.toFixed(1)}km
-              </div>
-              <div className="result-card-tags">
-                {r.moodTags.map((t) => (
-                  <span key={t} className="mini-tag">
-                    #{t}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+              isFavorite={favorites.includes(r.id)}
+              onToggleFavorite={() => onToggleFavorite(r.id)}
+            />
           ))}
         </div>
       )}

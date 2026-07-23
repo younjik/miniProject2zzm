@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import BottomNav from "./components/BottomNav.jsx";
-import IntroScreen from "./components/screens/IntroScreen.jsx";
+import TabBar from "./components/TabBar.jsx";
+import LaunchScreen from "./components/screens/LaunchScreen.jsx";
+import MapScreen from "./components/screens/MapScreen.jsx";
+import CommunityScreen from "./components/screens/CommunityScreen.jsx";
+import FavoritesScreen from "./components/screens/FavoritesScreen.jsx";
+import ProfileScreen from "./components/screens/ProfileScreen.jsx";
 import ConceptScreen from "./components/screens/ConceptScreen.jsx";
 import PartyScreen from "./components/screens/PartyScreen.jsx";
 import RegionScreen from "./components/screens/RegionScreen.jsx";
@@ -12,7 +17,8 @@ import DetailScreen from "./components/screens/DetailScreen.jsx";
 import { getTargetCoord, getRecommendations } from "./lib/recommend.js";
 import { restaurants } from "./data.js";
 
-const FLOW = ["intro", "region", "concept", "mood", "party", "submit"];
+const FLOW = ["region", "concept", "mood", "party", "submit"];
+const FAVORITES_KEY = "ijjeum_favorites";
 
 const initialAnswers = {
   concept: null,
@@ -47,20 +53,46 @@ function validateStep(step, answers) {
   }
 }
 
-const variants = {
+const slideVariants = {
   enter: (dir) => ({ x: dir > 0 ? 36 : -36, opacity: 0 }),
   center: { x: 0, opacity: 1 },
   exit: (dir) => ({ x: dir > 0 ? -36 : 36, opacity: 0 }),
 };
 
+const fadeVariants = {
+  enter: { opacity: 0 },
+  center: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function App() {
-  const [step, setStep] = useState("intro");
+  const [mainView, setMainView] = useState("tabs"); // 'tabs' | 'wizard'
+  const [activeTab, setActiveTab] = useState("map"); // 'map' | 'favorites' | 'launch' | 'community' | 'profile'
+  const [step, setStep] = useState("region");
   const [direction, setDirection] = useState(1);
   const [answers, setAnswers] = useState(initialAnswers);
   const [results, setResults] = useState([]);
   const [detailId, setDetailId] = useState(null);
+  const [favorites, setFavorites] = useState(loadFavorites);
+
+  useEffect(() => {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+  }, [favorites]);
 
   const updateAnswers = (partial) => setAnswers((prev) => ({ ...prev, ...partial }));
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  };
 
   const go = (nextStep, dir) => {
     setDirection(dir);
@@ -75,7 +107,11 @@ export default function App() {
 
   const handleBack = () => {
     const idx = FLOW.indexOf(step);
-    go(idx <= 1 ? "intro" : FLOW[idx - 1], -1);
+    if (idx <= 0) {
+      handleGoHome();
+      return;
+    }
+    go(FLOW[idx - 1], -1);
   };
 
   const handleSubmit = () => {
@@ -83,79 +119,149 @@ export default function App() {
     go("results", 1);
   };
 
-  const handleOpenDetail = (id) => {
+  const openDetail = (id) => {
+    setDirection(1);
     setDetailId(id);
-    go("detail", 1);
   };
 
-  const handleRestart = () => {
+  const closeDetail = () => {
+    setDirection(-1);
+    setDetailId(null);
+  };
+
+  const startWizard = () => {
     setAnswers(initialAnswers);
     setResults([]);
     setDetailId(null);
-    go("intro", -1);
+    setDirection(1);
+    setStep("region");
+    setMainView("wizard");
   };
 
-  const showBottomNav = ["region", "concept", "mood", "party"].includes(step);
-  const detailRestaurant = restaurants.find((r) => r.id === detailId) || null;
+  const handleGoHome = () => {
+    setAnswers(initialAnswers);
+    setResults([]);
+    setDetailId(null);
+    setDirection(-1);
+    setMainView("tabs");
+  };
 
-  const renderScreen = () => {
-    switch (step) {
-      case "intro":
-        return <IntroScreen onStart={() => go("region", 1)} />;
-      case "region":
-        return <RegionScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
-      case "concept":
+  const handleTabChange = (tab) => {
+    if (mainView === "wizard") {
+      setAnswers(initialAnswers);
+      setResults([]);
+      setDetailId(null);
+      setDirection(-1);
+      setMainView("tabs");
+      setActiveTab(tab);
+      return;
+    }
+    if (tab === activeTab) return;
+    setActiveTab(tab);
+  };
+
+  const detailRestaurant = restaurants.find((r) => r.id === detailId) || null;
+  const showWizardNav =
+    mainView === "wizard" && detailId == null && ["region", "concept", "mood", "party"].includes(step);
+  const showTabBar = detailId == null;
+
+  const renderContent = () => {
+    if (detailId != null && detailRestaurant) {
+      return (
+        <DetailScreen
+          restaurant={detailRestaurant}
+          onBack={closeDetail}
+          isFavorite={favorites.includes(detailRestaurant.id)}
+          onToggleFavorite={() => toggleFavorite(detailRestaurant.id)}
+        />
+      );
+    }
+
+    if (mainView === "wizard") {
+      switch (step) {
+        case "region":
+          return <RegionScreen answers={answers} onChange={updateAnswers} onGoHome={handleGoHome} />;
+        case "concept":
+          return (
+            <ConceptScreen
+              value={answers.concept}
+              onChange={(v) => updateAnswers({ concept: v })}
+              onGoHome={handleGoHome}
+            />
+          );
+        case "mood":
+          return <MoodCuisineScreen answers={answers} onChange={updateAnswers} onGoHome={handleGoHome} />;
+        case "party":
+          return <PartyScreen answers={answers} onChange={updateAnswers} onGoHome={handleGoHome} />;
+        case "submit":
+          return <SubmitScreen answers={answers} onBack={() => go("party", -1)} onSubmit={handleSubmit} />;
+        case "results":
+          return (
+            <ResultsScreen
+              results={results}
+              onBack={() => go("party", -1)}
+              onRestart={handleGoHome}
+              onOpenDetail={openDetail}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+            />
+          );
+        default:
+          return null;
+      }
+    }
+
+    switch (activeTab) {
+      case "launch":
+        return <LaunchScreen onStart={startWizard} />;
+      case "map":
+        return <MapScreen onOpenDetail={openDetail} />;
+      case "favorites": {
+        const favoriteRestaurants = restaurants.filter((r) => favorites.includes(r.id));
         return (
-          <ConceptScreen
-            value={answers.concept}
-            onChange={(v) => updateAnswers({ concept: v })}
-            onGoHome={handleRestart}
+          <FavoritesScreen
+            favoriteRestaurants={favoriteRestaurants}
+            onOpenDetail={openDetail}
+            onToggleFavorite={toggleFavorite}
           />
         );
-      case "mood":
-        return <MoodCuisineScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
-      case "party":
-        return <PartyScreen answers={answers} onChange={updateAnswers} onGoHome={handleRestart} />;
-      case "submit":
-        return <SubmitScreen answers={answers} onBack={() => go("party", -1)} onSubmit={handleSubmit} />;
-      case "results":
-        return (
-          <ResultsScreen
-            results={results}
-            onBack={() => go("party", -1)}
-            onRestart={handleRestart}
-            onOpenDetail={handleOpenDetail}
-          />
-        );
-      case "detail":
-        return <DetailScreen restaurant={detailRestaurant} onBack={() => go("results", -1)} />;
+      }
+      case "community":
+        return <CommunityScreen onOpenDetail={openDetail} />;
+      case "profile":
+        return <ProfileScreen favoriteCount={favorites.length} />;
       default:
         return null;
     }
   };
+
+  const currentKey = detailId != null ? "detail" : mainView === "wizard" ? step : `tab-${activeTab}`;
+  const useSlide = detailId != null || mainView === "wizard";
+  const isLaunchTab = mainView === "tabs" && activeTab === "launch" && detailId == null;
 
   return (
     <div className="app-shell">
       <div className="screens-viewport">
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
-            key={step}
+            key={currentKey}
             custom={direction}
-            variants={variants}
+            variants={useSlide ? slideVariants : fadeVariants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{ duration: 0.22, ease: "easeInOut" }}
-            className={`screen${step === "intro" ? " screen-center" : ""}`}
+            className={`screen${isLaunchTab ? " screen-center" : ""}`}
           >
-            {renderScreen()}
+            {renderContent()}
+            {showWizardNav && (
+              <BottomNav onBack={handleBack} onNext={handleNext} nextDisabled={!validateStep(step, answers)} />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {showBottomNav && (
-        <BottomNav onBack={handleBack} onNext={handleNext} nextDisabled={!validateStep(step, answers)} />
-      )}
+      {showTabBar && <TabBar active={activeTab} onChange={handleTabChange} />}
     </div>
   );
 }

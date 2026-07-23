@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { ChevronLeft, Star, Clock, GlassWater, UtensilsCrossed, Phone, MapPin, Navigation } from "lucide-react";
+import { ChevronLeft, Star, Clock, GlassWater, UtensilsCrossed, Phone, MapPin, Navigation, Heart } from "lucide-react";
 import { getNaverMapUrl } from "../../lib/naverMap.js";
 
-export default function DetailScreen({ restaurant, onBack }) {
+export default function DetailScreen({ restaurant, onBack, isFavorite, onToggleFavorite }) {
   if (!restaurant) return null;
   const r = restaurant;
 
@@ -20,7 +20,19 @@ export default function DetailScreen({ restaurant, onBack }) {
         <div className="detail-photo">
           <MapPin size={40} />
         </div>
-        <div className="detail-name">{r.name}</div>
+        <div className="detail-name-row">
+          <div className="detail-name">{r.name}</div>
+          {onToggleFavorite && (
+            <button
+              type="button"
+              className={`favorite-btn detail-favorite${isFavorite ? " active" : ""}`}
+              onClick={onToggleFavorite}
+              aria-label="즐겨찾기"
+            >
+              <Heart size={19} fill={isFavorite ? "currentColor" : "none"} />
+            </button>
+          )}
+        </div>
         <div className="detail-rating">
           <Star size={15} fill="currentColor" /> {r.rating} <span className="region">· {r.region}</span>
         </div>
