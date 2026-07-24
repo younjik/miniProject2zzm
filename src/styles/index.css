@@ -186,6 +186,15 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
   cursor: default;
 }
 
@@ -323,7 +332,6 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  text-decoration: line-through;
 }
 
 .custom-tag-input {

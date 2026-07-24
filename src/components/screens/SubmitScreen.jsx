@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, Sparkles } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 
 export default function SubmitScreen({ answers, onBack, onSubmit }) {
   const [loading, setLoading] = useState(false);
@@ -57,18 +57,18 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
           </div>
         </div>
         <motion.div
-          className="btn-primary btn-large submit-status"
+          className="submit-status"
           initial={{ opacity: 0.6 }}
           animate={{ opacity: 1 }}
         >
-          {loading ? (
-            "이쯤 찾고 있어요..."
-          ) : (
-            <>
-              <Sparkles size={16} style={{ marginRight: 6, verticalAlign: -3 }} />
-              조건 확인 중이에요
-            </>
-          )}
+          <motion.span
+            style={{ display: "flex" }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+          >
+            <Loader2 size={15} />
+          </motion.span>
+          {loading ? "이쯤 찾고 있어요..." : "조건 확인 중이에요"}
         </motion.div>
       </div>
     </>

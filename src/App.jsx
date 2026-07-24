@@ -42,8 +42,6 @@ function validateStep(step, answers) {
   switch (step) {
     case "concept":
       return !!answers.concept;
-    case "party":
-      return !!answers.round && !!answers.partySize;
     case "region":
       return !!getTargetCoord(answers);
     case "mood":
@@ -160,14 +158,15 @@ export default function App() {
       setActiveTab(tab);
       return;
     }
+    setDetailId(null);
     if (tab === activeTab) return;
+    setDirection(-1);
     setActiveTab(tab);
   };
 
   const detailRestaurant = restaurants.find((r) => r.id === detailId) || null;
   const showWizardNav =
     mainView === "wizard" && detailId == null && ["region", "concept", "mood", "party"].includes(step);
-  const showTabBar = detailId == null;
 
   const renderContent = () => {
     if (detailId != null && detailRestaurant) {
@@ -277,7 +276,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {showTabBar && <TabBar active={activeTab} onChange={handleTabChange} />}
+      <TabBar active={activeTab} onChange={handleTabChange} />
     </div>
   );
 }

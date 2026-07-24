@@ -107,7 +107,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           value={customMoodInput}
           onChange={(e) => setCustomMoodInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
               e.preventDefault();
               addCustomMood();
             }
@@ -150,7 +150,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           value={customCuisineInput}
           onChange={(e) => setCustomCuisineInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
               e.preventDefault();
               addCustomCuisine();
             }
@@ -169,7 +169,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           value={excludeCuisineInput}
           onChange={(e) => setExcludeCuisineInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
               e.preventDefault();
               addExcludedCuisine();
             }
