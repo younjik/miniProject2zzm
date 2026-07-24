@@ -215,7 +215,13 @@ export default function App() {
       case "launch":
         return <LaunchScreen onStart={startWizard} />;
       case "map":
-        return <MapScreen onOpenDetail={openDetail} />;
+        return (
+          <MapScreen
+            onOpenDetail={openDetail}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
+        );
       case "favorites": {
         const favoriteRestaurants = restaurants.filter((r) => favorites.includes(r.id));
         return (

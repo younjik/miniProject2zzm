@@ -3,10 +3,18 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { motion } from "framer-motion";
-import { LocateFixed, Star, AlertCircle } from "lucide-react";
+import {
+  LocateFixed,
+  Star,
+  AlertCircle,
+  Utensils,
+  Navigation,
+} from "lucide-react";
 import { restaurants } from "../../data.js";
 import { reverseGeocode } from "../../lib/geocode.js";
+import { haversineKm } from "../../lib/recommend.js";
 import pinUrl from "../../assets/pin.png";
+import RestaurantCard from "../RestaurantCard.jsx";
 
 const DEFAULT_CENTER = { lat: 37.5662, lng: 126.991 }; // 을지로3가
 
@@ -32,11 +40,17 @@ function FlyTo({ center }) {
   return null;
 }
 
-export default function MapScreen({ onOpenDetail }) {
+export default function MapScreen({ onOpenDetail, favorites = [], onToggleFavorite }) {
   const [myLocation, setMyLocation] = useState(null);
   const [address, setAddress] = useState("");
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState("");
+
+  const origin = myLocation || DEFAULT_CENTER;
+  const nearbyRestaurants = restaurants
+    .map((r) => ({ ...r, distance: haversineKm(origin.lat, origin.lng, r.lat, r.lng) }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, 8);
 
   const locate = () => {
     if (!navigator.geolocation) {
@@ -54,17 +68,21 @@ export default function MapScreen({ onOpenDetail }) {
         setLocating(false);
       },
       () => {
-        setLocateError("위치 정보를 가져올 수 없어요. 위치 권한을 확인해주세요.");
+        setLocateError(
+          "위치 정보를 가져올 수 없어요. 위치 권한을 확인해주세요.",
+        );
         setLocating(false);
       },
-      { enableHighAccuracy: true, timeout: 8000 }
+      { enableHighAccuracy: true, timeout: 8000 },
     );
   };
 
   return (
     <>
       <h2 className="step-title">근처 맛집</h2>
-      <p className="step-desc">{address ? `${address} 근처예요` : "지도를 움직여 주변을 둘러보세요"}</p>
+      <p className="step-desc">
+        {address ? `${address} 근처예요` : "지도를 움직여 주변을 둘러보세요"}
+      </p>
 
       <div className="map-card">
         <MapContainer
@@ -79,16 +97,23 @@ export default function MapScreen({ onOpenDetail }) {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <FlyTo center={myLocation} />
-          {myLocation && <Marker position={[myLocation.lat, myLocation.lng]} icon={meIcon} />}
+          {myLocation && (
+            <Marker position={[myLocation.lat, myLocation.lng]} icon={meIcon} />
+          )}
           {restaurants.map((r) => (
             <Marker key={r.id} position={[r.lat, r.lng]} icon={restaurantIcon}>
               <Popup>
                 <div className="map-popup">
                   <div className="map-popup-name">{r.name}</div>
                   <div className="map-popup-meta">
-                    <Star size={12} fill="currentColor" /> {r.rating} <span>· {r.region}</span>
+                    <Star size={12} fill="currentColor" /> {r.rating}{" "}
+                    <span>· {r.region}</span>
                   </div>
-                  <button type="button" className="map-popup-btn" onClick={() => onOpenDetail(r.id)}>
+                  <button
+                    type="button"
+                    className="map-popup-btn"
+                    onClick={() => onOpenDetail(r.id)}
+                  >
                     상세보기
                   </button>
                 </div>
@@ -96,6 +121,14 @@ export default function MapScreen({ onOpenDetail }) {
             </Marker>
           ))}
         </MapContainer>
+
+        <motion.button
+          type="button"
+          className="map-nearby-btn"
+          whileTap={{ scale: 0.96 }}
+        >
+          <Utensils size={14} /> 내 주변 맛집 찾기
+        </motion.button>
 
         <motion.button
           type="button"
@@ -107,6 +140,14 @@ export default function MapScreen({ onOpenDetail }) {
         >
           <LocateFixed size={19} />
         </motion.button>
+
+        <motion.button
+          type="button"
+          className="map-directions-btn"
+          whileTap={{ scale: 0.96 }}
+        >
+          <Navigation size={14} /> 길찾기
+        </motion.button>
       </div>
 
       {locateError && (
@@ -114,6 +155,25 @@ export default function MapScreen({ onOpenDetail }) {
           <AlertCircle size={14} /> {locateError}
         </p>
       )}
+
+      <div className="map-nearby-section">
+        <h3 className="map-nearby-title">
+          {myLocation ? "내 주변 맛집" : "을지로3가 근처 맛집"}
+        </h3>
+        <div className="map-nearby-scroll">
+          {nearbyRestaurants.map((r, i) => (
+            <div key={r.id} className="map-nearby-item">
+              <RestaurantCard
+                restaurant={r}
+                index={i}
+                onClick={() => onOpenDetail(r.id)}
+                isFavorite={favorites.includes(r.id)}
+                onToggleFavorite={onToggleFavorite ? () => onToggleFavorite(r.id) : undefined}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

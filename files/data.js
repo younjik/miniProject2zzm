@@ -1,48 +1,10 @@
-// ===== 이쯤 (Ijjeum) - 하드코딩 샘플 데이터 =====
-// 스키마는 data.md 참고
+// 이쯤 - 샘플 식당 데이터 (재검증판)
+// 을지로3가(1~8) + 화곡·성수 중간지점인 공덕역 인근(9~16), 총 16곳
+// 네이버 블로그/식신 리뷰 + 지도 장소 정보를 교차 확인해 실제 존재하는 장소로 재구성함
+// (영업시간·전화번호는 방문 전 재확인 권장 — 특히 phone: null 항목)
 
-export const MOOD_TAGS = ["조용한", "시끌벅적", "단체석", "회식", "데이트", "혼술", "루프탑", "감성"];
-
-export const CUISINE_MENU_TAGS = {
-  "한식": ["삼겹살", "곱창", "국밥", "찌개"],
-  "양식": ["파스타", "스테이크", "피자"],
-  "일식": ["스시", "이자카야", "라멘"],
-  "중식": ["짜장/짬뽕", "마라", "딤섬"],
-};
-
-export const REGION_COORDS = {
-  "을지로3가": { lat: 37.5662, lng: 126.9910 },
-  "을지로": { lat: 37.5662, lng: 126.9910 },
-  "공덕": { lat: 37.5443, lng: 126.9513 },
-  "공덕역": { lat: 37.5443, lng: 126.9513 },
-  "화곡": { lat: 37.5417, lng: 126.8409 },
-  "성수": { lat: 37.5446, lng: 127.0559 },
-  "강남역": { lat: 37.4979, lng: 127.0276 },
-  "홍대입구": { lat: 37.5563, lng: 126.9236 },
-  "신촌": { lat: 37.5559, lng: 126.9368 },
-  "잠실": { lat: 37.5133, lng: 127.1000 },
-  "건대입구": { lat: 37.5407, lng: 127.0693 },
-};
-
-export const CONCEPTS = [
-  { value: "가볍게 한잔", icon: "Wine" },
-  { value: "든든하게 식사", icon: "UtensilsCrossed" },
-  { value: "술 없이 맛집 탐방", icon: "Soup" },
-  { value: "대화 위주의 조용한 모임", icon: "MessageCircleHeart" },
-  { value: "만취 목표", icon: "PartyPopper" },
-  { value: "모르겠어요", icon: "HelpCircle" },
-];
-
-export const ROUNDS = ["1차", "2차", "3차 이상", "모르겠어요"];
-
-export const PARTY_SIZES = ["1명", "2명", "3~4명", "5명 이상", "모르겠어요"];
-
-export const CUISINE_TYPES = ["한식", "양식", "일식", "중식", "모르겠어요"];
-
-// 샘플 식당 데이터 (16곳, 재검증판 — files/data.js 기준)
-// 그룹1: 을지로3가 (한 지역 검색용, id 1~8)
-// 그룹2: 공덕역 인근 (화곡 ↔ 성수 중간지점 검색용, id 9~16)
-export const restaurants = [
+const restaurants = [
+  // ── 을지로 3가역 인근 ──────────────────────────────
   {
     id: 1,
     name: "을지로 라스베가스",
@@ -59,7 +21,7 @@ export const restaurants = [
     phone: null,
     reserveUrl: null,
     menu: ["하이볼", "니쿠도후"],
-    hours: "영업시간 매장 확인 필요 (통상 저녁~심야 운영)",
+    hours: "영업시간 매장 확인 필요 (통상 저녁~심야 운영)"
   },
   {
     id: 2,
@@ -77,7 +39,7 @@ export const restaurants = [
     phone: "02-2275-4671",
     reserveUrl: null,
     menu: ["소갈비살", "떡구이"],
-    hours: "11:00 ~ 22:00 (토 11:00~14:00)",
+    hours: "11:00 ~ 22:00 (토 11:00~14:00)"
   },
   {
     id: 3,
@@ -95,7 +57,7 @@ export const restaurants = [
     phone: "010-7970-1214",
     reserveUrl: null,
     menu: ["교자", "다시마키"],
-    hours: "18:00 ~ 24:00 (금 01:00, 토 17:00~01:00, 일 17:00~24:00)",
+    hours: "18:00 ~ 24:00 (금 01:00, 토 17:00~01:00, 일 17:00~24:00)"
   },
   {
     id: 4,
@@ -113,7 +75,7 @@ export const restaurants = [
     phone: "02-2266-1300",
     reserveUrl: null,
     menu: ["순대국밥", "수육"],
-    hours: "08:00 ~ 22:00",
+    hours: "08:00 ~ 22:00"
   },
   {
     id: 5,
@@ -131,7 +93,7 @@ export const restaurants = [
     phone: "02-2275-6654",
     reserveUrl: null,
     menu: ["순대국밥"],
-    hours: "11:30 ~ 15:00, 17:00 ~ 22:00 (일요일 휴무)",
+    hours: "11:30 ~ 15:00, 17:00 ~ 22:00 (일요일 휴무)"
   },
   {
     id: 6,
@@ -149,7 +111,7 @@ export const restaurants = [
     phone: "02-2272-2020",
     reserveUrl: null,
     menu: ["칼국수", "백숙백반"],
-    hours: "10:30 ~ 21:40",
+    hours: "10:30 ~ 21:40"
   },
   {
     id: 7,
@@ -167,7 +129,7 @@ export const restaurants = [
     phone: "050-71422-8850",
     reserveUrl: null,
     menu: ["오징어볶음", "해물모듬"],
-    hours: "11:00 ~ 22:00",
+    hours: "11:00 ~ 22:00"
   },
   {
     id: 8,
@@ -185,8 +147,10 @@ export const restaurants = [
     phone: "010-3975-5899",
     reserveUrl: null,
     menu: ["세비체", "카펠리니 파스타"],
-    hours: "18:00 ~ 01:00 (금·토 02:00까지, 일요일 휴무)",
+    hours: "18:00 ~ 01:00 (금·토 02:00까지, 일요일 휴무)"
   },
+
+  // ── 화곡 ↔ 성수 중간지점 (공덕역 인근) ──────────────
   {
     id: 9,
     name: "굴다리식당 본관",
@@ -203,7 +167,7 @@ export const restaurants = [
     phone: "02-706-0323",
     reserveUrl: null,
     menu: ["김치찌개", "제육볶음", "계란말이"],
-    hours: "11:00 ~ 22:00 (일 15:00~21:00)",
+    hours: "11:00 ~ 22:00 (일 15:00~21:00)"
   },
   {
     id: 10,
@@ -221,7 +185,7 @@ export const restaurants = [
     phone: "02-712-9242",
     reserveUrl: null,
     menu: ["소금구이", "돼지갈비"],
-    hours: "14:00 ~ 23:00 (토 12:00~22:00, 일요일 휴무)",
+    hours: "14:00 ~ 23:00 (토 12:00~22:00, 일요일 휴무)"
   },
   {
     id: 11,
@@ -239,7 +203,7 @@ export const restaurants = [
     phone: null,
     reserveUrl: null,
     menu: ["족발", "순대국"],
-    hours: "영업시간 매장 확인 필요",
+    hours: "영업시간 매장 확인 필요"
   },
   {
     id: 12,
@@ -257,7 +221,7 @@ export const restaurants = [
     phone: "02-715-1559",
     reserveUrl: null,
     menu: ["차돌삼합", "전골"],
-    hours: "11:00 ~ 14:30, 17:00 ~ 22:00 (주말 11:30~21:00)",
+    hours: "11:00 ~ 14:30, 17:00 ~ 22:00 (주말 11:30~21:00)"
   },
   {
     id: 13,
@@ -275,7 +239,7 @@ export const restaurants = [
     phone: "02-3275-1200",
     reserveUrl: null,
     menu: ["곱창구이", "야채곱창전골"],
-    hours: "11:30 ~ 23:00 (금 01:00까지, 토 13:00~01:00, 일 13:00~22:00)",
+    hours: "11:30 ~ 23:00 (금 01:00까지, 토 13:00~01:00, 일 13:00~22:00)"
   },
   {
     id: 14,
@@ -293,7 +257,7 @@ export const restaurants = [
     phone: "02-713-5201",
     reserveUrl: null,
     menu: ["곱창구이", "볶음밥"],
-    hours: "16:00 ~ 23:30 (일 15:00~23:00)",
+    hours: "16:00 ~ 23:30 (일 15:00~23:00)"
   },
   {
     id: 15,
@@ -311,7 +275,7 @@ export const restaurants = [
     phone: "02-2197-1881",
     reserveUrl: null,
     menu: ["샤오롱바오", "탕수육"],
-    hours: "11:30 ~ 15:00, 17:30 ~ 22:00",
+    hours: "11:30 ~ 15:00, 17:30 ~ 22:00"
   },
   {
     id: 16,
@@ -329,98 +293,11 @@ export const restaurants = [
     phone: "02-3275-2045",
     reserveUrl: null,
     menu: ["원두커피", "페이스트리"],
-    hours: "08:00 ~ 22:00 (토·일 10:00~22:00)",
-  },
+    hours: "08:00 ~ 22:00 (토·일 10:00~22:00)"
+  }
 ];
 
-// 커뮤니티 탭 - 모임 후기 게시판 (하드코딩 샘플)
-export const COMMUNITY_POSTS = [
-  {
-    id: 1,
-    author: "민지",
-    restaurantId: 1,
-    round: "2차",
-    partySize: "5명 이상",
-    text: "팀 회식 2차로 다녀왔는데 다들 만족했어요! 곱창전골이 특히 인기 만점이었습니다. 시끌벅적한 분위기라 단체 모임엔 딱이에요.",
-    likes: 24,
-    comments: 6,
-    createdAt: "3일 전",
-  },
-  {
-    id: 2,
-    author: "현우",
-    restaurantId: 5,
-    round: "1차",
-    partySize: "2명",
-    text: "여자친구랑 기념일에 갔는데 스시가 정말 신선했어요. 조용해서 대화하기도 좋고, 데이트 코스로 강추합니다.",
-    likes: 41,
-    comments: 9,
-    createdAt: "5일 전",
-  },
-  {
-    id: 3,
-    author: "소연",
-    restaurantId: 12,
-    round: "2차",
-    partySize: "1명",
-    text: "퇴근하고 혼자 한잔하러 갔는데 사장님이 친절하시고 부담 없어서 좋았어요. 혼술하기 딱 좋은 곳!",
-    likes: 18,
-    comments: 3,
-    createdAt: "1주 전",
-  },
-  {
-    id: 4,
-    author: "지훈",
-    restaurantId: 8,
-    round: "3차 이상",
-    partySize: "3~4명",
-    text: "친구들이랑 3차로 루프탑 왔는데 뷰가 미쳤습니다... 수제맥주랑 화덕피자 조합 최고예요.",
-    likes: 57,
-    comments: 12,
-    createdAt: "1주 전",
-  },
-  {
-    id: 5,
-    author: "예린",
-    restaurantId: 16,
-    round: "3차 이상",
-    partySize: "2명",
-    text: "조명이 너무 예뻐서 사진 찍기 좋고, 하이볼도 맛있어요. 조용히 대화하면서 마무리하기 좋은 3차 장소.",
-    likes: 33,
-    comments: 5,
-    createdAt: "2주 전",
-  },
-  {
-    id: 6,
-    author: "동현",
-    restaurantId: 10,
-    round: "2차",
-    partySize: "5명 이상",
-    text: "부서 회식으로 곱창골목 다녀왔어요. 불맛 제대로고 양도 푸짐해서 다 같이 배부르게 먹었습니다.",
-    likes: 21,
-    comments: 4,
-    createdAt: "2주 전",
-  },
-  {
-    id: 7,
-    author: "다은",
-    restaurantId: 13,
-    round: "1차",
-    partySize: "2명",
-    text: "딤섬 코스가 고급스러워서 특별한 날 데이트로 다녀왔어요. 샤오롱바오 육즙 대박입니다.",
-    likes: 29,
-    comments: 7,
-    createdAt: "3주 전",
-  },
-  {
-    id: 8,
-    author: "재현",
-    restaurantId: 4,
-    round: "2차",
-    partySize: "3~4명",
-    text: "노포 감성 제대로예요. 노가리에 맥주 한잔 딱이고, 가볍게 한잔하기 좋은 2차 장소로 추천합니다.",
-    likes: 15,
-    comments: 2,
-    createdAt: "3주 전",
-  },
-];
+// 브라우저(스크립트 태그)와 Node/모듈 환경 둘 다 지원
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = restaurants;
+}
