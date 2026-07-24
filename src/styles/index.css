@@ -182,6 +182,13 @@ button {
   box-shadow: none;
 }
 
+.submit-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
 .btn-secondary {
   background: #fff;
   color: var(--primary);
@@ -365,7 +372,8 @@ button {
 }
 
 .mood-cuisine-screen ~ .bottom-nav {
-  margin-top: 12px;
+  margin-top: 4px;
+  padding-top: 4px;
 }
 
 .custom-tag-input input {
@@ -551,8 +559,17 @@ input[type="text"]:focus {
   font-weight: 600;
   min-height: 18px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
+}
+
+.field-hint svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.field-hint span {
+  min-width: 0;
 }
 
 .field-hint.error {
@@ -877,6 +894,15 @@ input[type="text"]:focus {
 
 .bottom-nav button {
   flex: 1;
+}
+
+.btn-final {
+  flex: 2 !important;
+  font-size: 16px;
+}
+
+.btn-compact {
+  flex: 0.6 !important;
 }
 
 /* ===== 하단 탭바 ===== */

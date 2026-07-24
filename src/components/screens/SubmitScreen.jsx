@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, Sparkles } from "lucide-react";
 
 export default function SubmitScreen({ answers, onBack, onSubmit }) {
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const showLoading = setTimeout(() => setLoading(true), 1500);
+    const submitTimer = setTimeout(() => onSubmit(), 3800);
+    return () => {
+      clearTimeout(showLoading);
+      clearTimeout(submitTimer);
+    };
+  }, [onSubmit]);
 
   const region =
     answers.regionMode === "single"
@@ -18,13 +27,6 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
     ]
       .filter(Boolean)
       .join(" · ") || "상관없어요";
-
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      onSubmit();
-    }, 450);
-  };
 
   return (
     <>
@@ -54,22 +56,20 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
             <b>차수</b> · {answers.round}
           </div>
         </div>
-        <motion.button
-          className="btn-primary btn-large"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={handleSubmit}
-          disabled={loading}
+        <motion.div
+          className="btn-primary btn-large submit-status"
+          initial={{ opacity: 0.6 }}
+          animate={{ opacity: 1 }}
         >
           {loading ? (
             "이쯤 찾고 있어요..."
           ) : (
             <>
               <Sparkles size={16} style={{ marginRight: 6, verticalAlign: -3 }} />
-              추천받기
+              조건 확인 중이에요
             </>
           )}
-        </motion.button>
+        </motion.div>
       </div>
     </>
   );

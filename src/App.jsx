@@ -265,7 +265,13 @@ export default function App() {
           >
             {renderContent()}
             {showWizardNav && (
-              <BottomNav onBack={handleBack} onNext={handleNext} nextDisabled={!validateStep(step, answers)} />
+              <BottomNav
+                onBack={handleBack}
+                onNext={handleNext}
+                nextDisabled={!validateStep(step, answers)}
+                nextLabel={step === "party" ? "이쯤하고 장소 찾기" : undefined}
+                isFinal={step === "party"}
+              />
             )}
           </motion.div>
         </AnimatePresence>

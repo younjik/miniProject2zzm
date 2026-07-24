@@ -196,7 +196,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
 
       {cuisineRequiredMissing && (
         <p className="field-hint error">
-          <AlertCircle size={14} /> 땡기거나 제외할 음식을 꼭 골라주세요
+          <AlertCircle size={14} /> <span>땡기거나 제외할 음식을 골라주세요.<br />둘 중 하나만 골라도 돼요.</span>
         </p>
       )}
     </div>
