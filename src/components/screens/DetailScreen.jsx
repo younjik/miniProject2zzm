@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ChevronLeft, Star, Clock, GlassWater, UtensilsCrossed, Phone, MapPin, Navigation, Heart } from "lucide-react";
 import { getNaverMapUrl } from "../../lib/naverMap.js";
+import { formatPhone } from "../../lib/phone.js";
 
 export default function DetailScreen({ restaurant, onBack, isFavorite, onToggleFavorite }) {
   if (!restaurant) return null;
@@ -49,7 +50,7 @@ export default function DetailScreen({ restaurant, onBack, isFavorite, onToggleF
           <span className="label">
             <MapPin size={14} /> 주소
           </span>
-          <span className="value">{r.region} 인근</span>
+          <span className="value">{r.address || `${r.region} 인근`}</span>
         </div>
         <div className="detail-info-row">
           <span className="label">
@@ -85,9 +86,20 @@ export default function DetailScreen({ restaurant, onBack, isFavorite, onToggleF
         >
           <Navigation size={16} /> 네이버 지도로 길찾기
         </motion.a>
-        <motion.a whileTap={{ scale: 0.97 }} className="call-btn" href={`tel:${r.phone}`}>
-          <Phone size={16} /> {r.phone} 전화 예약하기
-        </motion.a>
+        {r.phone ? (
+          <motion.a
+            whileTap={{ scale: 0.97 }}
+            className="call-btn"
+            href={`tel:${r.phone}`}
+            title={formatPhone(r.phone)}
+          >
+            <Phone size={16} /> 전화 예약하기
+          </motion.a>
+        ) : (
+          <div className="call-btn call-btn-disabled">
+            <Phone size={16} /> 전화번호 정보가 없어요
+          </div>
+        )}
       </motion.div>
     </>
   );

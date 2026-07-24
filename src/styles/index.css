@@ -267,11 +267,13 @@ button {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  gap: 8px;
-  margin: 0 -20px 16px;
+  gap: 12px;
+  margin: 0 -20px 10px;
   padding: 0 20px 4px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 56px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 56px), transparent);
 }
 
 .tag-grid::-webkit-scrollbar {
@@ -320,7 +322,50 @@ button {
 .custom-tag-input {
   display: flex;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+/* ===== 분위기/음식 화면: 한 화면에 들어오도록 여백 압축 ===== */
+.mood-cuisine-screen .question-logo {
+  margin-bottom: 6px;
+}
+
+.mood-cuisine-screen .step-title {
+  margin-bottom: 4px;
+}
+
+.mood-cuisine-screen .step-desc {
+  margin-bottom: 8px;
+}
+
+.mood-cuisine-screen .section-label {
+  margin: 22px 0 8px;
+}
+
+.mood-cuisine-screen .section-label:first-of-type {
+  margin-top: 4px;
+}
+
+.mood-cuisine-screen .tag-grid {
+  margin-bottom: 6px;
+}
+
+.mood-cuisine-screen .custom-tag-input {
+  margin-bottom: 6px;
+}
+
+.mood-cuisine-screen .custom-tag-input input {
+  padding: 10px 14px;
+  margin-bottom: 0;
+}
+
+.mood-cuisine-screen .custom-tag-input .btn-secondary {
+  width: 42px;
+  height: 42px;
+}
+
+.mood-cuisine-screen ~ .bottom-nav {
+  margin-top: 12px;
 }
 
 .custom-tag-input input {
@@ -492,6 +537,13 @@ input[type="text"]:focus {
 
 .section-label:first-of-type {
   margin-top: 4px;
+}
+
+.section-label .optional-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: 4px;
 }
 
 .field-hint {
@@ -788,6 +840,13 @@ input[type="text"]:focus {
   font-weight: 800;
   font-size: 15px;
   box-shadow: 0 6px 18px rgba(242, 193, 78, 0.4);
+}
+
+.call-btn-disabled {
+  background: var(--border);
+  color: #8a8a8a;
+  box-shadow: none;
+  cursor: default;
 }
 
 .map-btn {

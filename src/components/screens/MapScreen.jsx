@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,6 +15,7 @@ import { reverseGeocode } from "../../lib/geocode.js";
 import { haversineKm } from "../../lib/recommend.js";
 import pinUrl from "../../assets/pin.png";
 import RestaurantCard from "../RestaurantCard.jsx";
+import { getNaverMapUrl } from "../../lib/naverMap.js";
 
 const DEFAULT_CENTER = { lat: 37.5662, lng: 126.991 }; // 을지로3가
 
@@ -45,12 +46,22 @@ export default function MapScreen({ onOpenDetail, favorites = [], onToggleFavori
   const [address, setAddress] = useState("");
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState("");
+  const nearbySectionRef = useRef(null);
 
   const origin = myLocation || DEFAULT_CENTER;
   const nearbyRestaurants = restaurants
     .map((r) => ({ ...r, distance: haversineKm(origin.lat, origin.lng, r.lat, r.lng) }))
     .sort((a, b) => a.distance - b.distance)
     .slice(0, 8);
+
+  const scrollToNearby = () => {
+    nearbySectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const openDirectionsToNearest = () => {
+    const nearest = nearbyRestaurants[0];
+    if (nearest) window.open(getNaverMapUrl(nearest), "_blank", "noopener,noreferrer");
+  };
 
   const locate = () => {
     if (!navigator.geolocation) {
@@ -126,6 +137,7 @@ export default function MapScreen({ onOpenDetail, favorites = [], onToggleFavori
           type="button"
           className="map-nearby-btn"
           whileTap={{ scale: 0.96 }}
+          onClick={scrollToNearby}
         >
           <Utensils size={14} /> 내 주변 맛집 찾기
         </motion.button>
@@ -145,6 +157,7 @@ export default function MapScreen({ onOpenDetail, favorites = [], onToggleFavori
           type="button"
           className="map-directions-btn"
           whileTap={{ scale: 0.96 }}
+          onClick={openDirectionsToNearest}
         >
           <Navigation size={14} /> 길찾기
         </motion.button>
@@ -156,7 +169,7 @@ export default function MapScreen({ onOpenDetail, favorites = [], onToggleFavori
         </p>
       )}
 
-      <div className="map-nearby-section">
+      <div className="map-nearby-section" ref={nearbySectionRef}>
         <h3 className="map-nearby-title">
           {myLocation ? "내 주변 맛집" : "을지로3가 근처 맛집"}
         </h3>

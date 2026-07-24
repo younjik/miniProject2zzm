@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Plus, X } from "lucide-react";
+import { Plus, X, AlertCircle } from "lucide-react";
 import { MOOD_TAGS, CUISINE_TYPES } from "../../data.js";
 import QuestionLogo from "../QuestionLogo.jsx";
 
@@ -9,13 +9,15 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
   const [customCuisineInput, setCustomCuisineInput] = useState("");
   const [excludeCuisineInput, setExcludeCuisineInput] = useState("");
 
+  const cuisineRequiredMissing =
+    answers.cuisines.length === 0 &&
+    answers.customCuisines.length === 0 &&
+    answers.excludedCuisines.length === 0;
+
   const toggleMood = (tag) => {
-    if (tag === "모르겠어요") {
-      onChange({ moods: answers.moods.includes("모르겠어요") ? [] : ["모르겠어요"] });
-      return;
-    }
-    let next = answers.moods.filter((t) => t !== "모르겠어요");
-    next = next.includes(tag) ? next.filter((t) => t !== tag) : [...next, tag];
+    const next = answers.moods.includes(tag)
+      ? answers.moods.filter((t) => t !== tag)
+      : [...answers.moods, tag];
     onChange({ moods: next });
   };
 
@@ -33,12 +35,9 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
   };
 
   const toggleCuisine = (c) => {
-    if (c === "모르겠어요") {
-      onChange({ cuisines: answers.cuisines.includes("모르겠어요") ? [] : ["모르겠어요"] });
-      return;
-    }
-    let next = answers.cuisines.filter((t) => t !== "모르겠어요");
-    next = next.includes(c) ? next.filter((t) => t !== c) : [...next, c];
+    const next = answers.cuisines.includes(c)
+      ? answers.cuisines.filter((t) => t !== c)
+      : [...answers.cuisines, c];
     onChange({ cuisines: next });
   };
 
@@ -69,14 +68,16 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
   };
 
   return (
-    <>
+    <div className="mood-cuisine-screen">
       <QuestionLogo onClick={onGoHome} />
       <h2 className="step-title">분위기랑 음식, 어떤 게 좋아요?</h2>
       <p className="step-desc">원하는 분위기와 음식을 여러 개 골라도 좋아요.</p>
 
-      <p className="section-label">어떤 분위기가 끌리세요?</p>
+      <p className="section-label">
+        어떤 분위기가 끌리세요? <span className="optional-tag">(선택)</span>
+      </p>
       <div className="tag-grid">
-        {[...MOOD_TAGS, "모르겠어요"].map((tag) => (
+        {MOOD_TAGS.map((tag) => (
           <motion.button
             key={tag}
             className={`tag-btn${answers.moods.includes(tag) ? " selected" : ""}`}
@@ -84,6 +85,18 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
             whileTap={{ scale: 0.95 }}
           >
             {tag}
+          </motion.button>
+        ))}
+        {answers.customMoods.map((tag, i) => (
+          <motion.button
+            key={tag + i}
+            className="tag-btn custom"
+            onClick={() => removeCustomMood(i)}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            #{tag} <X size={13} />
           </motion.button>
         ))}
       </div>
@@ -104,20 +117,6 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           <Plus size={16} />
         </button>
       </div>
-      <div className="tag-grid">
-        {answers.customMoods.map((tag, i) => (
-          <motion.button
-            key={tag + i}
-            className="tag-btn custom"
-            onClick={() => removeCustomMood(i)}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            #{tag} <X size={13} />
-          </motion.button>
-        ))}
-      </div>
 
       <p className="section-label">오늘은 뭐가 땡기세요?</p>
       <div className="tag-grid">
@@ -129,6 +128,18 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
             whileTap={{ scale: 0.95 }}
           >
             {c}
+          </motion.button>
+        ))}
+        {answers.customCuisines.map((tag, i) => (
+          <motion.button
+            key={tag + i}
+            className="tag-btn custom"
+            onClick={() => removeCustomCuisine(i)}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            #{tag} <X size={13} />
           </motion.button>
         ))}
       </div>
@@ -149,22 +160,8 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           <Plus size={16} />
         </button>
       </div>
-      <div className="tag-grid">
-        {answers.customCuisines.map((tag, i) => (
-          <motion.button
-            key={tag + i}
-            className="tag-btn custom"
-            onClick={() => removeCustomCuisine(i)}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            #{tag} <X size={13} />
-          </motion.button>
-        ))}
-      </div>
 
-      <p className="section-label">다 괜찮아요, 근데 이것만 빼고</p>
+      <p className="section-label">다 괜찮아, 근데 이것만 빼고</p>
       <div className="custom-tag-input">
         <input
           type="text"
@@ -196,6 +193,12 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           </motion.button>
         ))}
       </div>
-    </>
+
+      {cuisineRequiredMissing && (
+        <p className="field-hint error">
+          <AlertCircle size={14} /> 땡기거나 제외할 음식을 꼭 골라주세요
+        </p>
+      )}
+    </div>
   );
 }

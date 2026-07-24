@@ -100,7 +100,7 @@ export function getRecommendations(answers) {
   }
 
   const allCuisines = [...answers.cuisines, ...answers.customCuisines];
-  if (allCuisines.length && !answers.cuisines.includes("모르겠어요")) {
+  if (allCuisines.length) {
     near = near.filter((r) => allCuisines.some((tag) => restaurantMatchesCuisine(r, tag)));
   }
 
@@ -109,7 +109,7 @@ export function getRecommendations(answers) {
   }
 
   const allMoods = [...answers.moods, ...answers.customMoods];
-  if (allMoods.length && !answers.moods.includes("모르겠어요")) {
+  if (allMoods.length) {
     near = near.filter((r) => allMoods.some((tag) => restaurantMatchesTag(r, tag)));
   }
 
