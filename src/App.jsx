@@ -76,7 +76,7 @@ function loadFavorites() {
 
 export default function App() {
   const [mainView, setMainView] = useState("tabs"); // 'tabs' | 'wizard'
-  const [activeTab, setActiveTab] = useState("map"); // 'map' | 'favorites' | 'launch' | 'community' | 'profile'
+  const [activeTab, setActiveTab] = useState("launch"); // 'map' | 'favorites' | 'launch' | 'community' | 'profile'
   const [step, setStep] = useState("region");
   const [direction, setDirection] = useState(1);
   const [answers, setAnswers] = useState(initialAnswers);
