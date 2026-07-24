@@ -1054,26 +1054,19 @@ input[type="text"]:focus {
 /* ===== 가운데 이쯤 런치 버튼 ===== */
 .tab-bar-center {
   flex: 0 0 auto;
-  align-self: center;
+  align-self: flex-start;
   width: 56px;
   height: 56px;
-  margin-top: 0;
+  margin-top: -20px;
   border: none;
-  background: none;
-  box-shadow: none;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 6px 14px rgba(36, 59, 85, 0.32);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  overflow: hidden;
-}
-
-.tab-bar-center img {
-  width: 88px;
-  height: 88px;
-  object-fit: contain;
-  filter: drop-shadow(0 5px 8px rgba(36, 59, 85, 0.35));
 }
 
 /* ===== 지도 카드 ===== */

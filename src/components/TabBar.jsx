@@ -1,5 +1,4 @@
-import { Map, Heart, Users, User } from "lucide-react";
-import pinUrl from "../assets/pin.png";
+import { Map, Heart, Users, User, MessageCircleQuestion } from "lucide-react";
 
 const LEFT_TABS = [
   { key: "map", label: "지도", Icon: Map },
@@ -31,7 +30,7 @@ export default function TabBar({ active, onChange }) {
     <nav className="tab-bar">
       {LEFT_TABS.map(renderTab)}
       <button type="button" className="tab-bar-center" onClick={() => onChange("launch")} aria-label="이쯤 찾아보기">
-        <img src={pinUrl} alt="" />
+        <MessageCircleQuestion size={26} strokeWidth={2.2} color="#fff" />
       </button>
       {RIGHT_TABS.map(renderTab)}
     </nav>
