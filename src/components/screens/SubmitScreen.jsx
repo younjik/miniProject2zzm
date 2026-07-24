@@ -50,10 +50,10 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
             <b>음식</b> · {cuisineDisplay}
           </div>
           <div>
-            <b>인원수</b> · {answers.partySize}
+            <b>인원수</b> · {answers.partySize || "상관없어요"}
           </div>
           <div>
-            <b>차수</b> · {answers.round}
+            <b>차수</b> · {answers.round || "상관없어요"}
           </div>
         </div>
         <motion.div
