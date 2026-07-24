@@ -35,7 +35,7 @@ const initialAnswers = {
   customMoods: [],
   cuisines: [],
   customCuisines: [],
-  menuTags: [],
+  excludedCuisines: [],
 };
 
 function validateStep(step, answers) {
@@ -47,7 +47,11 @@ function validateStep(step, answers) {
     case "region":
       return !!getTargetCoord(answers);
     case "mood":
-      return answers.cuisines.length > 0 || answers.customCuisines.length > 0;
+      return (
+        answers.cuisines.length > 0 ||
+        answers.customCuisines.length > 0 ||
+        answers.excludedCuisines.length > 0
+      );
     default:
       return true;
   }

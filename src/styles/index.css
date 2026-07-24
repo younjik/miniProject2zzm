@@ -307,6 +307,16 @@ button {
   gap: 6px;
 }
 
+.tag-btn.excluded {
+  background: var(--muted);
+  border-color: var(--muted);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: line-through;
+}
+
 .custom-tag-input {
   display: flex;
   gap: 8px;
@@ -315,6 +325,18 @@ button {
 
 .custom-tag-input input {
   flex: 1;
+  margin-bottom: 0;
+}
+
+.custom-tag-input .btn-secondary {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ===== 탭 ===== */

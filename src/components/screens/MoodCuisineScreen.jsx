@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Plus, X } from "lucide-react";
-import { MOOD_TAGS, CUISINE_TYPES, CUISINE_MENU_TAGS } from "../../data.js";
+import { MOOD_TAGS, CUISINE_TYPES } from "../../data.js";
 import QuestionLogo from "../QuestionLogo.jsx";
 
 export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
   const [customMoodInput, setCustomMoodInput] = useState("");
   const [customCuisineInput, setCustomCuisineInput] = useState("");
-
-  const concreteCuisines = answers.cuisines.filter((c) => c !== "모르겠어요");
-  const menuTags = [...new Set(concreteCuisines.flatMap((c) => CUISINE_MENU_TAGS[c] || []))];
+  const [excludeCuisineInput, setExcludeCuisineInput] = useState("");
 
   const toggleMood = (tag) => {
     if (tag === "모르겠어요") {
@@ -36,21 +34,25 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
 
   const toggleCuisine = (c) => {
     if (c === "모르겠어요") {
-      const next = answers.cuisines.includes("모르겠어요") ? [] : ["모르겠어요"];
-      onChange({ cuisines: next, menuTags: [] });
+      onChange({ cuisines: answers.cuisines.includes("모르겠어요") ? [] : ["모르겠어요"] });
       return;
     }
     let next = answers.cuisines.filter((t) => t !== "모르겠어요");
     next = next.includes(c) ? next.filter((t) => t !== c) : [...next, c];
-    const allowedTags = new Set(next.flatMap((cu) => CUISINE_MENU_TAGS[cu] || []));
-    onChange({ cuisines: next, menuTags: answers.menuTags.filter((t) => allowedTags.has(t)) });
+    onChange({ cuisines: next });
   };
 
-  const toggleMenuTag = (tag) => {
-    const next = answers.menuTags.includes(tag)
-      ? answers.menuTags.filter((t) => t !== tag)
-      : [...answers.menuTags, tag];
-    onChange({ menuTags: next });
+  const addExcludedCuisine = () => {
+    const val = excludeCuisineInput.trim();
+    if (!val) return;
+    if (!answers.excludedCuisines.includes(val)) {
+      onChange({ excludedCuisines: [...answers.excludedCuisines, val] });
+    }
+    setExcludeCuisineInput("");
+  };
+
+  const removeExcludedCuisine = (idx) => {
+    onChange({ excludedCuisines: answers.excludedCuisines.filter((_, i) => i !== idx) });
   };
 
   const addCustomCuisine = () => {
@@ -72,7 +74,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
       <h2 className="step-title">분위기랑 음식, 어떤 게 좋아요?</h2>
       <p className="step-desc">원하는 분위기와 음식을 여러 개 골라도 좋아요.</p>
 
-      <p className="section-label">어떤 분위기가 좋아요?</p>
+      <p className="section-label">어떤 분위기가 끌리세요?</p>
       <div className="tag-grid">
         {[...MOOD_TAGS, "모르겠어요"].map((tag) => (
           <motion.button
@@ -117,7 +119,7 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
         ))}
       </div>
 
-      <p className="section-label">어떤 음식이 좋아요?</p>
+      <p className="section-label">오늘은 뭐가 땡기세요?</p>
       <div className="tag-grid">
         {CUISINE_TYPES.map((c) => (
           <motion.button
@@ -130,28 +132,6 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
           </motion.button>
         ))}
       </div>
-      <AnimatePresence mode="wait">
-        {menuTags.length > 0 && (
-          <motion.div
-            key={concreteCuisines.join(",")}
-            className="tag-grid"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18 }}
-          >
-            {menuTags.map((tag) => (
-              <button
-                key={tag}
-                className={`tag-btn${answers.menuTags.includes(tag) ? " selected" : ""}`}
-                onClick={() => toggleMenuTag(tag)}
-              >
-                {tag}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="custom-tag-input">
         <input
           type="text"
@@ -180,6 +160,39 @@ export default function MoodCuisineScreen({ answers, onChange, onGoHome }) {
             whileTap={{ scale: 0.95 }}
           >
             #{tag} <X size={13} />
+          </motion.button>
+        ))}
+      </div>
+
+      <p className="section-label">다 괜찮아요, 근데 이것만 빼고</p>
+      <div className="custom-tag-input">
+        <input
+          type="text"
+          placeholder="빼고 싶은 음식을 입력해보세요"
+          value={excludeCuisineInput}
+          onChange={(e) => setExcludeCuisineInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              addExcludedCuisine();
+            }
+          }}
+        />
+        <button className="btn-secondary" onClick={addExcludedCuisine}>
+          <Plus size={16} />
+        </button>
+      </div>
+      <div className="tag-grid">
+        {answers.excludedCuisines.map((tag, i) => (
+          <motion.button
+            key={tag + i}
+            className="tag-btn excluded"
+            onClick={() => removeExcludedCuisine(i)}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            #{tag} 빼고 <X size={13} />
           </motion.button>
         ))}
       </div>

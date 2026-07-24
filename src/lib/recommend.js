@@ -104,8 +104,8 @@ export function getRecommendations(answers) {
     near = near.filter((r) => allCuisines.some((tag) => restaurantMatchesCuisine(r, tag)));
   }
 
-  if (answers.menuTags.length) {
-    near = near.filter((r) => r.menuTags.some((t) => answers.menuTags.includes(t)));
+  if (answers.excludedCuisines?.length) {
+    near = near.filter((r) => !answers.excludedCuisines.some((tag) => restaurantMatchesCuisine(r, tag)));
   }
 
   const allMoods = [...answers.moods, ...answers.customMoods];

@@ -11,6 +11,13 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
       : `${answers.regionA || "-"} ↔ ${answers.regionB || "-"} 중간쯤`;
   const allMoods = [...answers.moods, ...answers.customMoods];
   const allCuisines = [...answers.cuisines, ...answers.customCuisines];
+  const cuisineDisplay =
+    [
+      allCuisines.length ? allCuisines.join(", ") : null,
+      answers.excludedCuisines.length ? `${answers.excludedCuisines.join(", ")} 빼고` : null,
+    ]
+      .filter(Boolean)
+      .join(" · ") || "상관없어요";
 
   const handleSubmit = () => {
     setLoading(true);
@@ -38,8 +45,7 @@ export default function SubmitScreen({ answers, onBack, onSubmit }) {
             <b>분위기</b> · {allMoods.length ? allMoods.join(", ") : "상관없어요"}
           </div>
           <div>
-            <b>음식</b> · {allCuisines.length ? allCuisines.join(", ") : "상관없어요"}
-            {answers.menuTags.length ? ` (${answers.menuTags.join(", ")})` : ""}
+            <b>음식</b> · {cuisineDisplay}
           </div>
           <div>
             <b>인원수</b> · {answers.partySize}

@@ -3,13 +3,6 @@
 
 export const MOOD_TAGS = ["조용한", "시끌벅적", "단체석", "회식", "데이트", "혼술", "루프탑", "감성"];
 
-export const CUISINE_MENU_TAGS = {
-  "한식": ["삼겹살", "곱창", "국밥", "찌개"],
-  "양식": ["파스타", "스테이크", "피자"],
-  "일식": ["스시", "이자카야", "라멘"],
-  "중식": ["짜장/짬뽕", "마라", "딤섬"],
-};
-
 export const REGION_COORDS = {
   "을지로3가": { lat: 37.5662, lng: 126.9910 },
   "을지로": { lat: 37.5662, lng: 126.9910 },
@@ -37,7 +30,7 @@ export const ROUNDS = ["1차", "2차", "3차 이상", "모르겠어요"];
 
 export const PARTY_SIZES = ["1명", "2명", "3~4명", "5명 이상", "모르겠어요"];
 
-export const CUISINE_TYPES = ["한식", "양식", "일식", "중식", "모르겠어요"];
+export const CUISINE_TYPES = ["한식", "양식", "일식", "중식", "생맥주", "와인", "칵테일", "전통주", "모르겠어요"];
 
 // 샘플 식당 데이터 (16곳, 재검증판 — files/data.js 기준)
 // 그룹1: 을지로3가 (한 지역 검색용, id 1~8)
@@ -52,7 +45,7 @@ export const restaurants = [
     lng: 126.9906529,
     moodTags: ["감성", "시끌벅적"],
     cuisineType: "일식",
-    menuTags: ["하이볼", "이자카야안주"],
+    menuTags: ["하이볼", "이자카야안주", "칵테일"],
     recommendedRound: ["2차"],
     rating: 4.7,
     reviewSummary: "인스타 핫플로 유명한 힙한 이자카야, 다양한 하이볼과 안주로 인기",
@@ -88,7 +81,7 @@ export const restaurants = [
     lng: 126.9910717,
     moodTags: ["시끌벅적", "회식", "감성"],
     cuisineType: "일식",
-    menuTags: ["하이볼", "이자카야안주"],
+    menuTags: ["하이볼", "이자카야안주", "칵테일"],
     recommendedRound: ["2차"],
     rating: 3.7,
     reviewSummary: "야외 테라스석이 있는 일본식 선술집, 활기찬 분위기로 직장인 모임에 인기",
