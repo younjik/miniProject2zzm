@@ -33,14 +33,15 @@
 :root {
   --primary: #243b55;
   --primary-light: #35507a;
-  --accent: #f46f7b;
-  --accent-soft: #ffd8dc;
-  --bg: #fff3ed;
-  --text: #333333;
+  --accent: #2f7d73;
+  --accent-soft: #dcece8;
+  --danger: #c95353;
+  --bg: #f4f6f5;
+  --text: #30363d;
   --gold: #f2c14e;
   --card-bg: #ffffff;
-  --border: #f0dfd5;
-  --muted: #8a8a8a;
+  --border: #dfe5e2;
+  --muted: #747d83;
   --shadow-soft: 0 8px 30px rgba(36, 59, 85, 0.08);
   --shadow-card: 0 4px 18px rgba(36, 59, 85, 0.07);
 }
@@ -57,8 +58,8 @@ body {
 
 body {
   background:
-    radial-gradient(1200px 800px at 20% -10%, #ffe3d3 0%, transparent 55%),
-    radial-gradient(900px 700px at 100% 0%, #ffd9de 0%, transparent 50%),
+    radial-gradient(1200px 800px at 20% -10%, #e5ebf2 0%, transparent 55%),
+    radial-gradient(900px 700px at 100% 0%, #e1eee9 0%, transparent 50%),
     var(--bg);
   color: var(--text);
   font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -594,7 +595,7 @@ input[type="text"]:focus {
 }
 
 .field-hint.error {
-  color: var(--accent);
+  color: var(--danger);
 }
 
 .field-hint.ok {
@@ -608,7 +609,7 @@ input[type="text"]:focus {
   gap: 7px;
   width: 100%;
   border: 1.5px dashed var(--accent);
-  background: #fff9f6;
+  background: #f2f8f6;
   color: var(--accent);
   border-radius: 13px;
   padding: 12px;
@@ -932,7 +933,7 @@ input[type="text"]:focus {
   bottom: 0;
   display: flex;
   padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
-  background: rgba(255, 243, 237, 0.85);
+  background: rgba(244, 246, 245, 0.9);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--border);
 }
